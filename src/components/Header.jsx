@@ -1,12 +1,15 @@
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { clearSession, getSession } from "../api/session.js";
+import { useStore } from "../store/index.js";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const session = getSession();
-  const nickname = session?.nickname ?? "Guest";
+  const {
+    state: { session },
+    actions,
+  } = useStore();
+  const nickname = session.user?.nickname ?? "Guest";
   const canGoBack = useMemo(() => location.pathname !== "/", [location.pathname]);
 
   const handleBack = () => {
@@ -18,7 +21,7 @@ const Header = () => {
   };
 
   const handleExit = () => {
-    clearSession();
+    actions.clearSession();
     navigate("/auth", { replace: true });
   };
 
