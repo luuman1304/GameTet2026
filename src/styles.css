@@ -76,6 +76,30 @@ a {
   margin-top: 24px;
 }
 
+.filter-bar {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.filter-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.filter-control select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  background: #ffffff;
+  font-size: 0.95rem;
+}
+
 .card {
   padding: 20px;
   border-radius: 16px;
@@ -87,6 +111,66 @@ a {
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+}
+
+.room-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.room-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.room-id {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.room-state {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.room-state--waiting,
+.room-state--ready {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.room-state--playing {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.room-players {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.button-disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.helper-error {
+  margin-top: 16px;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.helper-muted {
+  margin-top: 16px;
+  color: #64748b;
 }
 
 .form {

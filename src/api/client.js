@@ -43,3 +43,28 @@ export const getRoom = async (roomId) => {
     throw error;
   }
 };
+
+export const getRooms = async () => {
+  const session = getSession();
+
+  if (!session) {
+    handleApiError(401);
+    throw { status: 401 };
+  }
+
+  try {
+    return await mockRequest({
+      data: [
+        { id: "demo", name: "Demo Room", state: "WAITING", playersCount: 8 },
+        { id: "ready-12", name: "Warmup 12", state: "READY", playersCount: 12 },
+        { id: "play-01", name: "Loto Clash", state: "PLAYING", playersCount: 18 },
+        { id: "full-20", name: "Full House", state: "WAITING", playersCount: 20 },
+        { id: "play-20", name: "Late Game", state: "PLAYING", playersCount: 20 },
+        { id: "waiting-05", name: "Newbie", state: "WAITING", playersCount: 5 },
+      ],
+    });
+  } catch (error) {
+    handleApiError(error.status);
+    throw error;
+  }
+};
