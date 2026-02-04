@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { setSession } from "../api/session.js";
+import { useStore } from "../store/index.js";
 
 const AuthPage = () => {
   const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { actions } = useStore();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const trimmed = nickname.trim();
     const name = trimmed.length > 0 ? trimmed : "Guest";
-    setSession({ nickname: name });
+    actions.setSession({ nickname: name });
     const redirect = location.state?.from ?? "/";
     navigate(redirect, { replace: true });
   };
 
   const handleGuest = () => {
-    setSession({ nickname: "Guest" });
+    actions.setSession({ nickname: "Guest" });
     navigate("/", { replace: true });
   };
 
