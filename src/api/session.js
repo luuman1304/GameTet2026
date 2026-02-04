@@ -27,14 +27,9 @@ export const setSession = (session) => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
 };
 
-export const createGuestSession = (nickname, existingSession) => {
-  const guestId = existingSession?.guestId ?? generateGuestId();
-
-  return {
-    guestId,
-    nickname,
-    mode: "guest",
-  };
+export const getToken = () => {
+  const session = getSession();
+  return session?.token ?? null;
 };
 
 export const clearSession = () => {

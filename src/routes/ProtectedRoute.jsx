@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
     state: { session },
   } = useStore();
 
-  if (!session.user) {
+  if (!session?.token) {
     return <Navigate to="/auth" replace state={{ from: location.pathname }} />;
   }
 

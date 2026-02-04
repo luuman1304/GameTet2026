@@ -5,11 +5,9 @@ import { useStore } from "../store/index.js";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    state: { session },
-    actions,
-  } = useStore();
-  const nickname = session.user?.nickname ?? "Guest";
+  const session = getSession();
+  const nickname = session?.nickname ?? "Guest";
+  const beanBalance = session?.wallet?.beans ?? 0;
   const canGoBack = useMemo(() => location.pathname !== "/", [location.pathname]);
 
   const handleBack = () => {
@@ -34,6 +32,7 @@ const Header = () => {
         <div className="app-title">
           <span className="app-title__name">Tết Game Hub</span>
           <span className="app-title__nickname">{nickname}</span>
+          <span className="app-title__meta">Ví đậu: {beanBalance}</span>
         </div>
       </div>
       <button type="button" className="danger-button" onClick={handleExit}>
