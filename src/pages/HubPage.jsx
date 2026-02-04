@@ -1,6 +1,28 @@
 import { Link } from "react-router-dom";
 import { getSession } from "../api/session.js";
 
+const gameCards = [
+  {
+    id: "loto",
+    title: "Loto",
+    description: "Tham gia phòng Loto cùng bạn bè.",
+    path: "/loto/lobby",
+    isActive: true,
+  },
+  {
+    id: "baccarat",
+    title: "Baccarat",
+    description: "Đặt cược nhanh với luật chơi đơn giản.",
+    isActive: false,
+  },
+  {
+    id: "roulette",
+    title: "Roulette",
+    description: "Chọn số may mắn để thử vận.",
+    isActive: false,
+  },
+];
+
 const HubPage = () => {
   const session = getSession();
   const history = session?.history ?? [];
