@@ -1,6 +1,22 @@
 import { clearSession, getSession } from "./session.js";
 import { PlayerRoundStatus, RoomStatus } from "../store/index.js";
 
+const buildAuthContext = (session) => {
+  if (!session) {
+    return {};
+  }
+
+  if (session.token) {
+    return { token: session.token };
+  }
+
+  if (session.guestId) {
+    return { guestId: session.guestId };
+  }
+
+  return {};
+};
+
 const handleApiError = (status) => {
   if (status === 401) {
     clearSession();
@@ -12,9 +28,11 @@ const handleApiError = (status) => {
   }
 };
 
-const mockRequest = ({ status, data }) => {
+const mockRequest = ({ status, data, authContext }) => {
   return new Promise((resolve, reject) => {
     window.setTimeout(() => {
+      void authContext;
+
       if (status && status >= 400) {
         reject({ status });
         return;
@@ -33,45 +51,16 @@ export const getRoom = async (roomId) => {
     throw { status: 401 };
   }
 
+  const authContext = buildAuthContext(session);
+
   try {
     if (roomId !== "demo") {
-      return await mockRequest({ status: 404 });
+      return await mockRequest({ status: 404, authContext });
     }
 
     return await mockRequest({
-      data: {
-        id: roomId,
-        name: "Demo Room",
-        status: RoomStatus.READY,
-        players: [
-          {
-            id: "p1",
-            name: "Lan",
-            roundStatus: PlayerRoundStatus.READY,
-            isHost: true,
-          },
-          {
-            id: "p2",
-            name: "Minh",
-            roundStatus: PlayerRoundStatus.PLAYING,
-          },
-          {
-            id: "p3",
-            name: "Bảo",
-            roundStatus: PlayerRoundStatus.NOT_READY,
-          },
-        ],
-        round: {
-          id: "round-1",
-          status: RoomStatus.PLAYING,
-          calledNumbers: [5, 11, 23],
-        },
-        tickets: [
-          { id: "t1", ownerId: "p1", numbers: [1, 2, 3, 4, 5] },
-          { id: "t2", ownerId: "p2", numbers: [6, 7, 8, 9, 10] },
-        ],
-        events: [{ id: "evt-1", type: "ROOM_READY", at: Date.now() }],
-      },
+      data: { id: roomId, name: "Demo Room" },
+      authContext,
     });
   } catch (error) {
     handleApiError(error.status);
