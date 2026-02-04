@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "../api/client.js";
 import { setSession } from "../api/session.js";
@@ -10,6 +10,7 @@ const AuthPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const maxLength = 20;
 
   const handleSubmit = async (event) => {
     event.preventDefault();

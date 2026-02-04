@@ -14,6 +14,8 @@ const handleApiError = (status) => {
 const mockRequest = ({ status, data, headers }) => {
   return new Promise((resolve, reject) => {
     window.setTimeout(() => {
+      void authContext;
+
       if (status && status >= 400) {
         reject({ status });
         return;
@@ -75,6 +77,8 @@ export const getRoom = async (roomId) => {
     handleApiError(401);
     throw { status: 401 };
   }
+
+  const authContext = buildAuthContext(session);
 
   try {
     if (roomId !== "demo") {

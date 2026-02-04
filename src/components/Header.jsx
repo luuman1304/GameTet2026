@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { clearSession, getSession } from "../api/session.js";
+import { useStore } from "../store/index.js";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   const handleExit = () => {
-    clearSession();
+    actions.clearSession();
     navigate("/auth", { replace: true });
   };
 

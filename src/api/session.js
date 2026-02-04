@@ -1,5 +1,14 @@
 const STORAGE_KEY = "tet_game_hub_session";
 
+const generateGuestId = () => {
+  if (window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  const randomSuffix = Math.random().toString(16).slice(2);
+  return `guest-${Date.now()}-${randomSuffix}`;
+};
+
 export const getSession = () => {
   const raw = window.localStorage.getItem(STORAGE_KEY);
   if (!raw) {
