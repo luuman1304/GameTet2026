@@ -111,6 +111,20 @@ input {
   font-size: 1rem;
 }
 
+select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 1rem;
+  background: #ffffff;
+}
+
+.form-error {
+  margin: 0;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
 .form-actions {
   display: flex;
   flex-wrap: wrap;

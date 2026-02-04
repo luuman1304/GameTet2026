@@ -49,6 +49,8 @@ const LotoRoomPage = () => {
     <section className="page">
       <h1>{room.name}</h1>
       <p>Mã phòng: {room.id}</p>
+      {room.visibility ? <p>Chế độ: {room.visibility}</p> : null}
+      {room.winRule ? <p>Win rule: {room.winRule}</p> : null}
       <p>Chúc bạn chơi vui vẻ!</p>
     </section>
   );
