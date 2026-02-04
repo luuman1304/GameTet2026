@@ -1,33 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getRoom } from "../api/client.js";
+import { useStore } from "../store/index.js";
 
 const LotoRoomPage = () => {
   const { roomId } = useParams();
-  const [room, setRoom] = useState(null);
-  const [status, setStatus] = useState("loading");
+  const {
+    state: { room },
+    actions,
+  } = useStore();
 
   useEffect(() => {
     let isMounted = true;
-    setStatus("loading");
+    actions.setRoomLoading(roomId);
 
     getRoom(roomId)
       .then((data) => {
         if (!isMounted) return;
-        setRoom(data);
-        setStatus("ready");
+        actions.setRoomSnapshot(data);
       })
       .catch((error) => {
         if (!isMounted) return;
-        setStatus(error.status === 404 ? "not_found" : "error");
+        actions.setRoomError(error.status === 404 ? "not_found" : "error");
       });
 
     return () => {
       isMounted = false;
     };
-  }, [roomId]);
+  }, [actions, roomId]);
 
-  if (status === "loading") {
+  if (room.status === "loading") {
     return (
       <section className="page">
         <h1>Loto Room</h1>
@@ -36,7 +38,7 @@ const LotoRoomPage = () => {
     );
   }
 
-  if (status !== "ready") {
+  if (room.status !== "ready") {
     return (
       <section className="page">
         <h1>Loto Room</h1>
@@ -45,10 +47,37 @@ const LotoRoomPage = () => {
     );
   }
 
+  const { snapshot, playerIds, playersById, round, tickets } = room;
+
   return (
     <section className="page">
-      <h1>{room.name}</h1>
-      <p>Mã phòng: {room.id}</p>
+      <h1>{snapshot?.name}</h1>
+      <p>Mã phòng: {snapshot?.id}</p>
+      <p>Trạng thái phòng: {snapshot?.status}</p>
+      <div className="card">
+        <h3>Vòng chơi</h3>
+        <p>ID: {round?.id ?? "Chưa bắt đầu"}</p>
+        <p>Trạng thái: {round?.status ?? "N/A"}</p>
+        <p>Số đã gọi: {round?.calledNumbers?.join(", ") ?? "-"}</p>
+      </div>
+      <div className="card">
+        <h3>Người chơi</h3>
+        <ul>
+          {playerIds.map((playerId) => {
+            const player = playersById[playerId];
+            return (
+              <li key={playerId}>
+                {player.name} — {player.roundStatus}
+                {player.isHost ? " (host)" : ""}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="card">
+        <h3>Vé Loto</h3>
+        <p>Tổng vé: {tickets.length}</p>
+      </div>
       <p>Chúc bạn chơi vui vẻ!</p>
     </section>
   );
