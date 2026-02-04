@@ -1,33 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getRoom } from "../api/client.js";
+import { useStore } from "../store/index.js";
 
 const LotoRoomPage = () => {
   const { roomId } = useParams();
-  const [room, setRoom] = useState(null);
-  const [status, setStatus] = useState("loading");
+  const {
+    state: { room },
+    actions,
+  } = useStore();
 
   useEffect(() => {
     let isMounted = true;
-    setStatus("loading");
+    actions.setRoomLoading(roomId);
 
     getRoom(roomId)
       .then((data) => {
         if (!isMounted) return;
-        setRoom(data);
-        setStatus("ready");
+        actions.setRoomSnapshot(data);
       })
       .catch((error) => {
         if (!isMounted) return;
-        setStatus(error.status === 404 ? "not_found" : "error");
+        actions.setRoomError(error.status === 404 ? "not_found" : "error");
       });
 
     return () => {
       isMounted = false;
     };
-  }, [roomId]);
+  }, [actions, roomId]);
 
-  if (status === "loading") {
+  if (room.status === "loading") {
     return (
       <section className="page">
         <h1>Loto Room</h1>
@@ -36,7 +38,7 @@ const LotoRoomPage = () => {
     );
   }
 
-  if (status !== "ready") {
+  if (room.status !== "ready") {
     return (
       <section className="page">
         <h1>Loto Room</h1>
@@ -44,6 +46,8 @@ const LotoRoomPage = () => {
       </section>
     );
   }
+
+  const { snapshot, playerIds, playersById, round, tickets } = room;
 
   return (
     <section className="page">

@@ -37,14 +37,15 @@ const LotoLobbyPage = () => {
       <h1>Loto Lobby</h1>
       <p>Chọn phòng để bắt đầu chơi.</p>
       <div className="card-grid">
-        <Link className="card" to="/loto/room/demo">
-          <h3>Demo Room</h3>
-          <p>Room mẫu để test luồng vào phòng.</p>
-        </Link>
-        <Link className="card" to="/loto/room/404">
-          <h3>Room 404</h3>
-          <p>Kiểm tra điều hướng khi phòng không tồn tại.</p>
-        </Link>
+        {rooms.map((room) => (
+          <Link key={room.id} className="card" to={`/loto/room/${room.id}`}>
+            <h3>{room.name}</h3>
+            <p>Trạng thái: {room.status}</p>
+            <p>
+              Người chơi: {room.playerCount}/{room.maxPlayers}
+            </p>
+          </Link>
+        ))}
       </div>
       <div className="card">
         <h2>Tạo phòng mới (optional)</h2>
