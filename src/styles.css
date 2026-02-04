@@ -136,23 +136,18 @@ input {
   font-size: 1rem;
 }
 
-input[aria-invalid="true"] {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 1rem;
+  background: #ffffff;
 }
 
-.form-hint,
 .form-error {
   margin: 0;
-  font-size: 0.85rem;
-}
-
-.form-hint {
-  color: #64748b;
-}
-
-.form-error {
-  color: #ef4444;
+  color: #b91c1c;
+  font-weight: 500;
 }
 
 .form-actions {

@@ -51,33 +51,10 @@ const LotoRoomPage = () => {
 
   return (
     <section className="page">
-      <h1>{snapshot?.name}</h1>
-      <p>Mã phòng: {snapshot?.id}</p>
-      <p>Trạng thái phòng: {snapshot?.status}</p>
-      <div className="card">
-        <h3>Vòng chơi</h3>
-        <p>ID: {round?.id ?? "Chưa bắt đầu"}</p>
-        <p>Trạng thái: {round?.status ?? "N/A"}</p>
-        <p>Số đã gọi: {round?.calledNumbers?.join(", ") ?? "-"}</p>
-      </div>
-      <div className="card">
-        <h3>Người chơi</h3>
-        <ul>
-          {playerIds.map((playerId) => {
-            const player = playersById[playerId];
-            return (
-              <li key={playerId}>
-                {player.name} — {player.roundStatus}
-                {player.isHost ? " (host)" : ""}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="card">
-        <h3>Vé Loto</h3>
-        <p>Tổng vé: {tickets.length}</p>
-      </div>
+      <h1>{room.name}</h1>
+      <p>Mã phòng: {room.id}</p>
+      {room.visibility ? <p>Chế độ: {room.visibility}</p> : null}
+      {room.winRule ? <p>Win rule: {room.winRule}</p> : null}
       <p>Chúc bạn chơi vui vẻ!</p>
     </section>
   );
