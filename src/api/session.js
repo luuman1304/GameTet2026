@@ -18,6 +18,11 @@ export const setSession = (session) => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
 };
 
+export const getToken = () => {
+  const session = getSession();
+  return session?.token ?? null;
+};
+
 export const clearSession = () => {
   window.localStorage.removeItem(STORAGE_KEY);
 };

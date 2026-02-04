@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
   const session = getSession();
 
-  if (!session) {
+  if (!session?.token) {
     return <Navigate to="/auth" replace state={{ from: location.pathname }} />;
   }
 
