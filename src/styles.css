@@ -76,6 +76,22 @@ a {
   margin-top: 24px;
 }
 
+.lobby-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.lobby-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
 .card {
   padding: 20px;
   border-radius: 16px;
